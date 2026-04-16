@@ -1,0 +1,12 @@
+{
+  "name": "hbcurl",
+  "version": "1.0.0",
+  "author": "Maria Garcia",
+  "date": "2025-11-10",
+  "description": "libcurl bindings for Harbour",
+  "keywords": ["http", "curl", "network"],
+  "license": "GPL-2",
+  "harbour_min": "3.0",
+  "size_bytes": 12800,
+  "sha256": ""
+}

@@ -1,0 +1,12 @@
+{
+  "name": "hbmysql",
+  "version": "1.0.0",
+  "author": "Charly Nou mil",
+  "date": "2026-02-20",
+  "description": "MySQL connector for Harbour",
+  "keywords": ["database", "mysql", "sql"],
+  "license": "MIT",
+  "harbour_min": "3.2",
+  "size_bytes": 45320,
+  "sha256": ""
+}

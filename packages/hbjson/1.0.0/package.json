@@ -1,0 +1,12 @@
+{
+  "name": "hbjson",
+  "version": "1.0.0",
+  "author": "Maria Garcia",
+  "date": "2026-03-05",
+  "description": "JSON parser and serializer for Harbour",
+  "keywords": ["json", "parser", "serializer"],
+  "license": "MIT",
+  "harbour_min": "3.0",
+  "size_bytes": 8100,
+  "sha256": ""
+}
