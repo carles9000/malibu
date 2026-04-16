@@ -1,6 +1,14 @@
- ewogICJuYW1lIjogImhibmV3IiwKICAidmVyc2lvbiI6ICIxLjAuMCIsCiAg
-ImF1dGhvciI6ICJDaGFybHkgTm91IG1pbCIsCiAgImRhdGUiOiAiMjAyNi0w
-NC0xNiIsCiAgImRlc2NyaXB0aW9uIjogIk5ldyB0ZXN0IHBhY2thZ2UiLAog
-ICJrZXl3b3JkcyI6IFsidGVzdCJdLAogICJsaWNlbnNlIjogIk1JVCIsCiAg
-ImhhcmJvdXJfbWluIjogIjMuMiIsCiAgInNpemVfYnl0ZXMiOiAwLAogICJz
-aGEyNTYiOiAiIgp9
+{
+  "name": "hbnew",
+  "version": "1.0.0",
+  "author": "Charly Nou mil",
+  "date": "2026-04-16",
+  "description": "New test package",
+  "keywords": [
+    "test"
+  ],
+  "license": "MIT",
+  "harbour_min": "3.2",
+  "size_bytes": 0,
+  "sha256": ""
+}
