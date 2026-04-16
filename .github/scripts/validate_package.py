@@ -11,6 +11,9 @@ checked = 0
 # Usuario GitHub que abre el PR (inyectado por el Action)
 pr_author = os.environ.get("GITHUB_ACTOR", "").strip()
 
+if not pr_author:
+    print("AVISO: GITHUB_ACTOR no definido, omitiendo comprobaciones de autoría")
+
 
 def get_main_meta(path):
     """Obtiene el package.json de main si existe"""
@@ -44,7 +47,7 @@ for path in sorted(glob.glob("packages/*/*/package.json")):
     if main_meta is not None:
         STATUS_FIELDS = {"yanked", "deprecated", "deprecated_reason"}
 
-        # Comprobar que solo han cambiado campos de estado
+        # Solo se permiten cambios en campos de estado
         current  = {k: v for k, v in meta.items()      if k not in STATUS_FIELDS}
         original = {k: v for k, v in main_meta.items() if k not in STATUS_FIELDS}
 
@@ -54,9 +57,9 @@ for path in sorted(glob.glob("packages/*/*/package.json")):
                 f"Solo se permite cambiar 'yanked', 'deprecated' y 'deprecated_reason'. "
                 f"Para corregir el paquete publica una versión nueva."
             )
-            continue  # No seguir validando este fichero
+            continue
 
-        # Comprobar que quien hace el cambio es el autor original
+        # Solo el autor original puede cambiar el estado
         original_author = main_meta.get("author", "")
         if pr_author and original_author and pr_author != original_author:
             errors.append(
@@ -65,8 +68,8 @@ for path in sorted(glob.glob("packages/*/*/package.json")):
             )
             continue
 
-        print(f"  ℹ {path}: cambio de estado (yanked/deprecated) por autor '{pr_author}' — permitido")
-        continue  # El resto de validaciones no aplican a cambios de estado
+        print(f"  ℹ {path}: cambio de estado por autor '{pr_author}' — permitido")
+        continue
 
     # ── Paquete nuevo — validaciones completas ────────────────────────────
 
@@ -101,6 +104,31 @@ for path in sorted(glob.glob("packages/*/*/package.json")):
         errors.append(
             f"{path}: 'version' ('{version}') no coincide con el directorio ('{ver_dir}')"
         )
+
+    # author debe coincidir con el usuario GitHub que abre el PR
+    author = meta.get("author", "")
+    if pr_author and not author:
+        errors.append(
+            f"{path}: campo 'author' ausente. Debe ser tu usuario de GitHub: '{pr_author}'"
+        )
+    elif pr_author and author and author != pr_author:
+        errors.append(
+            f"{path}: 'author' ('{author}') debe coincidir con tu usuario "
+            f"de GitHub ('{pr_author}'). No puedes publicar paquetes en nombre de otro autor."
+        )
+
+    # Comprobar que ninguna versión anterior de este paquete pertenece a otro autor
+    existing_versions = glob.glob(f"packages/{name_dir}/*/package.json")
+    for ev_path in existing_versions:
+        ev_main = get_main_meta(ev_path)
+        if ev_main:
+            ev_author = ev_main.get("author", "")
+            if pr_author and ev_author and ev_author != pr_author:
+                errors.append(
+                    f"{path}: el paquete '{name_dir}' ya existe y pertenece "
+                    f"a '{ev_author}'. No puedes publicar versiones de paquetes ajenos."
+                )
+                break
 
     # keywords: array de palabras lowercase
     keywords = meta.get("keywords", [])
