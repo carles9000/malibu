@@ -1,0 +1,12 @@
+{
+  "name": "hbtest",
+  "version": "1.0.0",
+  "author": "Charly Nou mil",
+  "date": "2026-04-16",
+  "description": "Test package for Harbour package manager",
+  "keywords": ["test", "harbour"],
+  "license": "MIT",
+  "harbour_min": "3.2",
+  "size_bytes": 1024,
+  "sha256": "placeholder"
+}
