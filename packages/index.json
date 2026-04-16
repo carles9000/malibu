@@ -31,5 +31,77 @@
     "meta_url": "packages/hbtest/1.0.0/package.json",
     "size_bytes": 1024,
     "sha256": "placeholder"
+  },
+  {
+    "name": "hbjson",
+    "version": "1.0.0",
+    "author": "Maria Garcia",
+    "date": "2026-03-05",
+    "description": "JSON parser and serializer for Harbour",
+    "keywords": [
+      "json",
+      "parser",
+      "serializer"
+    ],
+    "license": "MIT",
+    "harbour_min": "3.0",
+    "url": "packages/hbjson/1.0.0/hbjson.zip",
+    "meta_url": "packages/hbjson/1.0.0/package.json",
+    "size_bytes": 8100,
+    "sha256": ""
+  },
+  {
+    "name": "hbmysql",
+    "version": "1.0.0",
+    "author": "Charly Nou mil",
+    "date": "2026-02-20",
+    "description": "MySQL connector for Harbour",
+    "keywords": [
+      "database",
+      "mysql",
+      "sql"
+    ],
+    "license": "MIT",
+    "harbour_min": "3.2",
+    "url": "packages/hbmysql/1.0.0/hbmysql.zip",
+    "meta_url": "packages/hbmysql/1.0.0/package.json",
+    "size_bytes": 45320,
+    "sha256": ""
+  },
+  {
+    "name": "hbcurl",
+    "version": "2.0.0",
+    "author": "Maria Garcia",
+    "date": "2026-01-15",
+    "description": "libcurl bindings for Harbour v2",
+    "keywords": [
+      "http",
+      "curl",
+      "network"
+    ],
+    "license": "GPL-2",
+    "harbour_min": "3.2",
+    "url": "packages/hbcurl/2.0.0/hbcurl.zip",
+    "meta_url": "packages/hbcurl/2.0.0/package.json",
+    "size_bytes": 15200,
+    "sha256": ""
+  },
+  {
+    "name": "hbcurl",
+    "version": "1.0.0",
+    "author": "Maria Garcia",
+    "date": "2025-11-10",
+    "description": "libcurl bindings for Harbour",
+    "keywords": [
+      "http",
+      "curl",
+      "network"
+    ],
+    "license": "GPL-2",
+    "harbour_min": "3.0",
+    "url": "packages/hbcurl/1.0.0/hbcurl.zip",
+    "meta_url": "packages/hbcurl/1.0.0/package.json",
+    "size_bytes": 12800,
+    "sha256": ""
   }
 ]
