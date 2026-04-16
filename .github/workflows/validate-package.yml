@@ -18,13 +18,19 @@ jobs:
           git checkout pr-branch
 
       - name: Validate package.json files
+        env:
+          GITHUB_ACTOR: ${{ github.event.pull_request.user.login }}
         run: python .github/scripts/validate_package.py
 
       - name: Show package summary
         if: success()
         run: |
-          echo "### Paquetes encontrados en el PR:" 
+          echo "Paquetes validados correctamente:"
           find packages -name "package.json" | sort | while read f; do
-            name=$(python -c "import json; m=json.load(open('$f')); print(m.get('name','?') + ' v' + m.get('version','?') + ' — ' + m.get('description','')[:60])")
-            echo "  ✓ $name"
+            python3 -c "
+import json, sys
+with open('$f') as fh:
+    m = json.load(fh)
+print('  OK:', m.get('name','?'), 'v' + m.get('version','?'), '-', m.get('description','')[:60])
+"
           done
