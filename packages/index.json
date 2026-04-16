@@ -35,6 +35,24 @@
     "yanked": false
   },
   {
+    "name": "hbtest",
+    "version": "1.0.1",
+    "author": "Charly Nou mil",
+    "date": "2026-04-16",
+    "description": "Test 2 package for HIX",
+    "keywords": [
+      "test",
+      "harbour"
+    ],
+    "url": "packages/hbtest/1.0.1/hbtest.zip",
+    "meta_url": "packages/hbtest/1.0.1/package.json",
+    "size_bytes": 338162,
+    "sha256": "ab2163f5a098531625c26b6b0d8ebd79121ce395a8b83a4036e1c17999d5d794",
+    "deprecated": false,
+    "deprecated_reason": "",
+    "yanked": false
+  },
+  {
     "name": "hbjson",
     "version": "1.0.0",
     "author": "Maria Garcia",
