@@ -8,12 +8,13 @@
     "keywords": [
       "test"
     ],
-    "license": "MIT",
-    "harbour_min": "3.2",
     "url": "packages/hbnew/1.0.0/hbnew.zip",
     "meta_url": "packages/hbnew/1.0.0/package.json",
     "size_bytes": 0,
-    "sha256": ""
+    "sha256": "",
+    "deprecated": false,
+    "deprecated_reason": "",
+    "yanked": false
   },
   {
     "name": "hbtest",
@@ -25,12 +26,13 @@
       "test",
       "harbour"
     ],
-    "license": "MIT",
-    "harbour_min": "3.2",
     "url": "packages/hbtest/1.0.0/hbtest.zip",
     "meta_url": "packages/hbtest/1.0.0/package.json",
-    "size_bytes": 1024,
-    "sha256": "placeholder"
+    "size_bytes": 338162,
+    "sha256": "ab2163f5a098531625c26b6b0d8ebd79121ce395a8b83a4036e1c17999d5d794",
+    "deprecated": false,
+    "deprecated_reason": "",
+    "yanked": false
   },
   {
     "name": "hbjson",
@@ -43,12 +45,13 @@
       "parser",
       "serializer"
     ],
-    "license": "MIT",
-    "harbour_min": "3.0",
     "url": "packages/hbjson/1.0.0/hbjson.zip",
     "meta_url": "packages/hbjson/1.0.0/package.json",
-    "size_bytes": 8100,
-    "sha256": ""
+    "size_bytes": 0,
+    "sha256": "",
+    "deprecated": false,
+    "deprecated_reason": "",
+    "yanked": false
   },
   {
     "name": "hbmysql",
@@ -61,12 +64,13 @@
       "mysql",
       "sql"
     ],
-    "license": "MIT",
-    "harbour_min": "3.2",
     "url": "packages/hbmysql/1.0.0/hbmysql.zip",
     "meta_url": "packages/hbmysql/1.0.0/package.json",
-    "size_bytes": 45320,
-    "sha256": ""
+    "size_bytes": 0,
+    "sha256": "",
+    "deprecated": false,
+    "deprecated_reason": "",
+    "yanked": false
   },
   {
     "name": "hbcurl",
@@ -79,12 +83,13 @@
       "curl",
       "network"
     ],
-    "license": "GPL-2",
-    "harbour_min": "3.2",
     "url": "packages/hbcurl/2.0.0/hbcurl.zip",
     "meta_url": "packages/hbcurl/2.0.0/package.json",
-    "size_bytes": 15200,
-    "sha256": ""
+    "size_bytes": 0,
+    "sha256": "",
+    "deprecated": false,
+    "deprecated_reason": "",
+    "yanked": false
   },
   {
     "name": "hbcurl",
@@ -97,11 +102,12 @@
       "curl",
       "network"
     ],
-    "license": "GPL-2",
-    "harbour_min": "3.0",
     "url": "packages/hbcurl/1.0.0/hbcurl.zip",
     "meta_url": "packages/hbcurl/1.0.0/package.json",
-    "size_bytes": 12800,
-    "sha256": ""
+    "size_bytes": 0,
+    "sha256": "",
+    "deprecated": false,
+    "deprecated_reason": "",
+    "yanked": false
   }
 ]
