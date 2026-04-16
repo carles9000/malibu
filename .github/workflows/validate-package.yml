@@ -1,0 +1,30 @@
+name: Validate package on PR
+
+on:
+  pull_request:
+    paths:
+      - 'packages/**/package.json'
+      - 'packages/**/*.zip'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR
+        run: |
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git .
+          git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-branch
+          git checkout pr-branch
+
+      - name: Validate package.json files
+        run: python .github/scripts/validate_package.py
+
+      - name: Show package summary
+        if: success()
+        run: |
+          echo "### Paquetes encontrados en el PR:" 
+          find packages -name "package.json" | sort | while read f; do
+            name=$(python -c "import json; m=json.load(open('$f')); print(m.get('name','?') + ' v' + m.get('version','?') + ' — ' + m.get('description','')[:60])")
+            echo "  ✓ $name"
+          done
