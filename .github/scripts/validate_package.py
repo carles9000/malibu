@@ -1,5 +1,4 @@
-import json, glob, sys, re, os
-from datetime import date
+import json, glob, sys, re, os, subprocess
 
 REQUIRED = ["name", "version", "description", "keywords"]
 NAME_RE   = re.compile(r"^[a-z][a-z0-9-]+$")
@@ -8,6 +7,24 @@ KW_RE     = re.compile(r"^[a-z][a-z0-9-]*$")
 
 errors  = []
 checked = 0
+
+# Usuario GitHub que abre el PR (inyectado por el Action)
+pr_author = os.environ.get("GITHUB_ACTOR", "").strip()
+
+
+def get_main_meta(path):
+    """Obtiene el package.json de main si existe"""
+    result = subprocess.run(
+        ["git", "show", f"origin/main:{path}"],
+        capture_output=True, text=True
+    )
+    if result.returncode == 0:
+        try:
+            return json.loads(result.stdout)
+        except Exception:
+            return None
+    return None
+
 
 for path in sorted(glob.glob("packages/*/*/package.json")):
     parts = path.replace("\\", "/").split("/")
@@ -21,6 +38,37 @@ for path in sorted(glob.glob("packages/*/*/package.json")):
             continue
 
     checked += 1
+    main_meta = get_main_meta(path)
+
+    # ── Versión ya existente en main ──────────────────────────────────────
+    if main_meta is not None:
+        STATUS_FIELDS = {"yanked", "deprecated", "deprecated_reason"}
+
+        # Comprobar que solo han cambiado campos de estado
+        current  = {k: v for k, v in meta.items()      if k not in STATUS_FIELDS}
+        original = {k: v for k, v in main_meta.items() if k not in STATUS_FIELDS}
+
+        if current != original:
+            errors.append(
+                f"{path}: versión ya publicada e inmutable. "
+                f"Solo se permite cambiar 'yanked', 'deprecated' y 'deprecated_reason'. "
+                f"Para corregir el paquete publica una versión nueva."
+            )
+            continue  # No seguir validando este fichero
+
+        # Comprobar que quien hace el cambio es el autor original
+        original_author = main_meta.get("author", "")
+        if pr_author and original_author and pr_author != original_author:
+            errors.append(
+                f"{path}: solo el autor original ('{original_author}') puede cambiar "
+                f"el estado de este paquete. PR abierto por '{pr_author}'."
+            )
+            continue
+
+        print(f"  ℹ {path}: cambio de estado (yanked/deprecated) por autor '{pr_author}' — permitido")
+        continue  # El resto de validaciones no aplican a cambios de estado
+
+    # ── Paquete nuevo — validaciones completas ────────────────────────────
 
     # Campos obligatorios presentes y no vacíos
     for field in REQUIRED:
@@ -30,20 +78,29 @@ for path in sorted(glob.glob("packages/*/*/package.json")):
     # name: formato lowercase con guiones
     name = meta.get("name", "")
     if name and not NAME_RE.match(name):
-        errors.append(f"{path}: 'name' debe ser lowercase, solo letras, números y guiones (ej: hb-mysql). Valor: '{name}'")
+        errors.append(
+            f"{path}: 'name' debe ser lowercase, solo letras, números y guiones "
+            f"(ej: hb-mysql). Valor: '{name}'"
+        )
 
-    # name debe coincidir con el nombre del directorio
+    # name debe coincidir con el directorio
     if name and name != name_dir:
-        errors.append(f"{path}: 'name' ('{name}') no coincide con el directorio ('{name_dir}')")
+        errors.append(
+            f"{path}: 'name' ('{name}') no coincide con el directorio ('{name_dir}')"
+        )
 
     # version: formato semver X.Y.Z
     version = meta.get("version", "")
     if version and not VER_RE.match(version):
-        errors.append(f"{path}: 'version' debe seguir formato X.Y.Z (ej: 1.0.0). Valor: '{version}'")
+        errors.append(
+            f"{path}: 'version' debe seguir formato X.Y.Z (ej: 1.0.0). Valor: '{version}'"
+        )
 
     # version debe coincidir con el directorio
     if version and version != ver_dir:
-        errors.append(f"{path}: 'version' ('{version}') no coincide con el directorio ('{ver_dir}')")
+        errors.append(
+            f"{path}: 'version' ('{version}') no coincide con el directorio ('{ver_dir}')"
+        )
 
     # keywords: array de palabras lowercase
     keywords = meta.get("keywords", [])
@@ -56,21 +113,30 @@ for path in sorted(glob.glob("packages/*/*/package.json")):
             if not isinstance(kw, str):
                 errors.append(f"{path}: keyword '{kw}' debe ser una cadena de texto")
             elif not KW_RE.match(kw):
-                errors.append(f"{path}: keyword '{kw}' debe ser lowercase, solo letras, números y guiones, sin espacios")
+                errors.append(
+                    f"{path}: keyword '{kw}' debe ser lowercase, "
+                    f"solo letras, números y guiones, sin espacios"
+                )
             elif len(kw) > 30:
                 errors.append(f"{path}: keyword '{kw}' supera los 30 caracteres")
 
     # description: longitud razonable
     desc = meta.get("description", "")
     if desc and len(desc) > 200:
-        errors.append(f"{path}: 'description' supera los 200 caracteres ({len(desc)})")
+        errors.append(
+            f"{path}: 'description' supera los 200 caracteres ({len(desc)})"
+        )
 
     # Verificar que existe el ZIP
     zip_path = f"packages/{name_dir}/{ver_dir}/{name_dir}.zip"
     if not os.path.exists(zip_path):
-        errors.append(f"{path}: falta el fichero ZIP esperado en '{zip_path}'")
+        errors.append(
+            f"{path}: falta el fichero ZIP esperado en '{zip_path}'"
+        )
 
-print(f"Validados: {checked} package.json")
+
+# ── Resultado final ───────────────────────────────────────────────────────
+print(f"\nValidados: {checked} package.json")
 
 if errors:
     print(f"\n✗ {len(errors)} error(es) encontrado(s):")
