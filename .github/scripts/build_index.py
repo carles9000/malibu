@@ -1,14 +1,19 @@
 import json, glob, os, hashlib
+from datetime import date
 
 packages = []
 skipped  = []
+
+# Inyectado por el workflow tras un merge de PR
+github_actor = os.environ.get("GITHUB_ACTOR", "").strip()
+today        = date.today().isoformat()  # YYYY-MM-DD
 
 for path in sorted(glob.glob("packages/*/*/package.json")):
     with open(path, encoding="utf-8") as f:
         try:
             meta = json.load(f)
         except json.JSONDecodeError:
-            print(f"ERROR: {path} no es JSON válido, ignorado")
+            print(f"ERROR: {path} no es JSON valido, ignorado")
             continue
 
     parts = path.replace("\\", "/").split("/")
@@ -18,7 +23,33 @@ for path in sorted(glob.glob("packages/*/*/package.json")):
         skipped.append(f"{name} {version} (yanked)")
         continue
 
-    # Calcular size_bytes y sha256 del ZIP automáticamente
+    # ── Enriquecer package.json con campos del sistema ────────────────
+    modified = False
+
+    # author: solo se asigna si no existe ya (respeta el autor original)
+    if not meta.get("author"):
+        if github_actor:
+            meta["author"] = github_actor
+            modified = True
+
+    # date: solo se asigna si no existe ya (respeta la fecha original)
+    if not meta.get("date"):
+        meta["date"] = today
+        modified = True
+
+    # Inicializar campos de estado si no existen
+    for field, default in [("deprecated", False), ("deprecated_reason", ""), ("yanked", False)]:
+        if field not in meta:
+            meta[field] = default
+            modified = True
+
+    # Reescribir package.json si se han añadido campos
+    if modified:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(meta, f, indent=2, ensure_ascii=False)
+        print(f"  Enriched: {path}")
+
+    # ── Calcular size_bytes y sha256 del ZIP ──────────────────────────
     zip_path = f"packages/{name}/{version}/{name}.zip"
     if os.path.exists(zip_path):
         with open(zip_path, "rb") as zf:
@@ -33,7 +64,7 @@ for path in sorted(glob.glob("packages/*/*/package.json")):
         "name":              meta.get("name", name),
         "version":           meta.get("version", version),
         "author":            meta.get("author", ""),
-        "date":              meta.get("date", ""),
+        "date":              meta.get("date", today),
         "description":       meta.get("description", ""),
         "keywords":          meta.get("keywords", []),
         "url":               f"packages/{name}/{version}/{name}.zip",
