@@ -1,6 +1,14 @@
 {
   "name": "hbmagic",
-  "version": "1.0.0",    
+  "version": "1.0.0",
   "description": "Magic package for HIX",
-  "keywords": ["abm", "harbour"]  
+  "keywords": [
+    "abm",
+    "harbour"
+  ],
+  "author": "carles9000",
+  "date": "2026-04-20",
+  "deprecated": false,
+  "deprecated_reason": "",
+  "yanked": false
 }

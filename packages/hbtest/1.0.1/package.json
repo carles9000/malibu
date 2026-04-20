@@ -4,6 +4,12 @@
   "author": "Charly Nou mil",
   "date": "2026-04-16",
   "description": "Test 2 package for HIX",
-  "keywords": ["test", "harbour"],
-  "license": "MIT"  
+  "keywords": [
+    "test",
+    "harbour"
+  ],
+  "license": "MIT",
+  "deprecated": false,
+  "deprecated_reason": "",
+  "yanked": false
 }

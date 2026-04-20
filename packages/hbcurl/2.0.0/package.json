@@ -4,9 +4,16 @@
   "author": "Maria Garcia",
   "date": "2026-01-15",
   "description": "libcurl bindings for Harbour v2",
-  "keywords": ["http", "curl", "network"],
+  "keywords": [
+    "http",
+    "curl",
+    "network"
+  ],
   "license": "GPL-2",
   "harbour_min": "3.2",
   "size_bytes": 15200,
-  "sha256": ""
+  "sha256": "",
+  "deprecated": false,
+  "deprecated_reason": "",
+  "yanked": false
 }
