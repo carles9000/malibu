@@ -1,5 +1,23 @@
 [
   {
+    "name": "hbprova",
+    "version": "1.0.0",
+    "author": "carles9000",
+    "date": "2026-04-21",
+    "description": "Prova package for HIX",
+    "keywords": [
+      "test",
+      "harbour"
+    ],
+    "url": "packages/hbprova/1.0.0/hbprova.zip",
+    "meta_url": "packages/hbprova/1.0.0/package.json",
+    "size_bytes": 338162,
+    "sha256": "ab2163f5a098531625c26b6b0d8ebd79121ce395a8b83a4036e1c17999d5d794",
+    "deprecated": false,
+    "deprecated_reason": "",
+    "yanked": false
+  },
+  {
     "name": "hbmagic",
     "version": "1.0.0",
     "author": "carles9000",

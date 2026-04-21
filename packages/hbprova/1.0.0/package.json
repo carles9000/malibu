@@ -5,5 +5,10 @@
   "keywords": [
     "test",
     "harbour"
-  ]
+  ],
+  "author": "carles9000",
+  "date": "2026-04-21",
+  "deprecated": false,
+  "deprecated_reason": "",
+  "yanked": false
 }
