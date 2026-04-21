@@ -1,0 +1,9 @@
+{
+  "name": "hbprova",
+  "version": "1.0.0",
+  "description": "Prova package for HIX",
+  "keywords": [
+    "test",
+    "harbour"
+  ]
+}
